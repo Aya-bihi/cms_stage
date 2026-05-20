@@ -1,0 +1,5 @@
+name: 'Portail Interne du Ministère'
+type: module
+description: 'Portail interne de gestion documentaire et collaborative du Ministère'
+core_version_requirement: ^10 || ^11
+package: Custom

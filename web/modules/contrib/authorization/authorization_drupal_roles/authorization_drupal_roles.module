@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Contains authorization_drupal_roles.module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function authorization_drupal_roles_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'help.page.authorization_drupal_roles') {
+    $output = '';
+    $output .= '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('Create Drupal roles as part of an Authorization workflow.') . '</p>';
+    return $output;
+  }
+}

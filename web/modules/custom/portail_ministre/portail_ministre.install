@@ -1,0 +1,1072 @@
+<?php
+
+/**
+ * @file
+ * Installation et schéma de la base de données du module Portail Ministre.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function portail_ministre_schema() {
+  $schema = [];
+
+  // ============================================================
+  // TABLE : portail_ministre_direction
+  // ============================================================
+  $schema['portail_ministre_direction'] = [
+    'description' => 'Directions et départements du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'nom_idx' => ['nom'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_categorie_document
+  // ============================================================
+  $schema['portail_ministre_categorie_document'] = [
+    'description' => 'Catégories de documents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_role
+  // ============================================================
+  $schema['portail_ministre_role'] = [
+    'description' => 'Rôles des utilisateurs du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'nom_unique' => ['nom'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_utilisateur
+  // ============================================================
+  $schema['portail_ministre_utilisateur'] = [
+    'description' => 'Utilisateurs du portail du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_role' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'prenom' => [
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'login' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'mot_de_passe' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'telephone' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => FALSE,
+      ],
+      'photo' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 1,
+        'description' => '1=actif, 0=inactif',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'login_unique' => ['login'],
+      'email_unique' => ['email'],
+    ],
+    'indexes' => [
+      'role_idx' => ['id_role'],
+    ],
+    'foreign keys' => [
+      'role_fk' => [
+        'table' => 'portail_ministre_role',
+        'columns' => ['id_role' => 'id'],
+      ],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_permission
+  // ============================================================
+  $schema['portail_ministre_permission'] = [
+    'description' => 'Permissions : LECTURE, MODIFICATION, IMPRESSION, VALIDATION.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_role' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'type_permission' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'LECTURE',
+        'description' => 'LECTURE | MODIFICATION | IMPRESSION | VALIDATION',
+      ],
+      'description' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'role_permission_idx' => ['id_role', 'type_permission'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_groupe_utilisateur
+  // ============================================================
+  $schema['portail_ministre_groupe_utilisateur'] = [
+    'description' => 'Groupes d\'utilisateurs.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_categorie' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'id_selection' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_groupe_utilisateur_map
+  // ============================================================
+  $schema['portail_ministre_groupe_utilisateur_map'] = [
+    'description' => 'Relation N:N entre groupes et utilisateurs.',
+    'fields' => [
+      'id_groupe' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id_groupe', 'id_utilisateur'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_document
+  // ============================================================
+  $schema['portail_ministre_document'] = [
+    'description' => 'Documents officiels du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_categorie' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'id_direction' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Auteur du document.',
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'BROUILLON',
+        'description' => 'EN_ATTENTE | BROUILLON | LECTURE | ARCHIVE | REFUS | VALIDATION',
+      ],
+      'date_creation' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'date_modification' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'statut_idx' => ['statut'],
+      'categorie_idx' => ['id_categorie'],
+      'direction_idx' => ['id_direction'],
+      'auteur_idx' => ['id_utilisateur'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_version_document
+  // ============================================================
+  $schema['portail_ministre_version_document'] = [
+    'description' => 'Versions successives des documents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_document' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'version' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+        'default' => '1.0',
+      ],
+      'fichier' => [
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+        'description' => 'Chemin ou URI du fichier.',
+      ],
+      'parametre' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Timestamp de la version.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'document_idx' => ['id_document'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_note
+  // ============================================================
+  $schema['portail_ministre_note'] = [
+    'description' => 'Notes associées aux documents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_document' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'document_idx' => ['id_document'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_journal_audit
+  // ============================================================
+  $schema['portail_ministre_journal_audit'] = [
+    'description' => 'Journal d\'audit : traçabilité de toutes les actions.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_document' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'action' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_action' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'document_idx' => ['id_document'],
+      'utilisateur_idx' => ['id_utilisateur'],
+      'date_idx' => ['date_action'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_workflow
+  // ============================================================
+  $schema['portail_ministre_workflow'] = [
+    'description' => 'Workflows de traitement des documents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_formulaire' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'EN_ATTENTE',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_formulaire
+  // ============================================================
+  $schema['portail_ministre_formulaire'] = [
+    'description' => 'Formulaires liés aux demandes.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_formulaire_type' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_demande
+  // ============================================================
+  $schema['portail_ministre_demande'] = [
+    'description' => 'Demandes soumises par les agents du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_formulaire' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'exige_demande' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'type_demande' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'EN_ATTENTE',
+        'description' => 'EN_ATTENTE | VALIDATION | REFUS',
+      ],
+      'commentaire' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_creation' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'utilisateur_idx' => ['id_utilisateur'],
+      'statut_idx' => ['statut'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_dispo_docs
+  // ============================================================
+  $schema['portail_ministre_dispo_docs'] = [
+    'description' => 'Disponibilité et diffusion des documents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_document' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'code' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+      ],
+      'id_validation' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'voie_validation' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'date_validation' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'commentaire' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'document_idx' => ['id_document'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_notification
+  // ============================================================
+  $schema['portail_ministre_notification'] = [
+    'description' => 'Notifications envoyées aux agents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_notification' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'lu' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => '0=non lu, 1=lu',
+      ],
+      'lien' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'utilisateur_idx' => ['id_utilisateur'],
+      'lu_idx' => ['lu'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_actualite
+  // ============================================================
+  $schema['portail_ministre_actualite'] = [
+    'description' => 'Actualités publiées sur le portail du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Auteur de l\'actualité.',
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ],
+      'commentaire' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+      ],
+      'date_publication' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'auteur_idx' => ['id_utilisateur'],
+      'date_idx' => ['date_publication'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_agenda
+  // ============================================================
+  $schema['portail_ministre_agenda'] = [
+    'description' => 'Agenda des agents du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'utilisateur_idx' => ['id_utilisateur'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_message
+  // ============================================================
+  $schema['portail_ministre_message'] = [
+    'description' => 'Messagerie interne entre agents du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_expediteur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_destinataire' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'objet' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ],
+      'date_envoi' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'lu' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'expediteur_idx' => ['id_expediteur'],
+      'destinataire_idx' => ['id_destinataire'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_sondage
+  // ============================================================
+  $schema['portail_ministre_sondage'] = [
+    'description' => 'Sondages internes du ministère.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_debut' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'date_fin' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+        'default' => 'actif',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_tache
+  // ============================================================
+  $schema['portail_ministre_tache'] = [
+    'description' => 'Tâches assignées aux agents.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_tache_parent' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'Pour les sous-tâches.',
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_debut' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'date_echeance' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'A_FAIRE',
+        'description' => 'A_FAIRE | EN_COURS | TERMINE',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'utilisateur_idx' => ['id_utilisateur'],
+      'statut_idx' => ['statut'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_evenement
+  // ============================================================
+  $schema['portail_ministre_evenement'] = [
+    'description' => 'Événements du calendrier ministériel.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_document' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'titre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'contenu' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'date_debut' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'date_fin' => [
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'statut' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => 'PROGRAMME',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'utilisateur_idx' => ['id_utilisateur'],
+      'date_idx' => ['date_debut'],
+    ],
+  ];
+
+  // ============================================================
+  // TABLE : portail_ministre_application
+  // ============================================================
+  $schema['portail_ministre_application'] = [
+    'description' => 'Applications intégrées au portail ministériel.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'url' => [
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ],
+      'id_utilisateur' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'Responsable de l\'application.',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
+
+// ============================================================
+// hook_uninstall
+// ============================================================
+/**
+ * Implements hook_uninstall().
+ */
+function portail_ministre_uninstall() {
+  $tables = [
+    'portail_ministre_application',
+    'portail_ministre_evenement',
+    'portail_ministre_tache',
+    'portail_ministre_sondage',
+    'portail_ministre_message',
+    'portail_ministre_agenda',
+    'portail_ministre_actualite',
+    'portail_ministre_notification',
+    'portail_ministre_dispo_docs',
+    'portail_ministre_demande',
+    'portail_ministre_formulaire',
+    'portail_ministre_workflow',
+    'portail_ministre_journal_audit',
+    'portail_ministre_note',
+    'portail_ministre_version_document',
+    'portail_ministre_document',
+    'portail_ministre_groupe_utilisateur_map',
+    'portail_ministre_groupe_utilisateur',
+    'portail_ministre_permission',
+    'portail_ministre_utilisateur',
+    'portail_ministre_role',
+    'portail_ministre_categorie_document',
+    'portail_ministre_direction',
+  ];
+
+  $schema = \Drupal::database()->schema();
+  foreach ($tables as $table) {
+    if ($schema->tableExists($table)) {
+      $schema->dropTable($table);
+    }
+  }
+}
+
+// ============================================================
+// hook_update_N : exemples de mises à jour futures
+// ============================================================
+
+/**
+ * Ajoute la colonne 'priorite' à portail_ministre_tache.
+ */
+function portail_ministre_update_8001() {
+  $spec = [
+    'type' => 'varchar',
+    'length' => 20,
+    'not null' => TRUE,
+    'default' => 'NORMALE',
+    'description' => 'BASSE | NORMALE | HAUTE | URGENTE',
+  ];
+  \Drupal::database()
+    ->schema()
+    ->addField('portail_ministre_tache', 'priorite', $spec);
+}
+
+/**
+ * Ajoute la colonne 'confidentiel' à portail_ministre_document.
+ */
+function portail_ministre_update_8002() {
+  $spec = [
+    'type' => 'int',
+    'size' => 'tiny',
+    'not null' => TRUE,
+    'default' => 0,
+    'description' => '0=public, 1=confidentiel',
+  ];
+  \Drupal::database()
+    ->schema()
+    ->addField('portail_ministre_document', 'confidentiel', $spec);
+}

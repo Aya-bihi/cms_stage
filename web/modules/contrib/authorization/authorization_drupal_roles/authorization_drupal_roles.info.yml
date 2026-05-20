@@ -1,0 +1,12 @@
+name: Drupal Roles Authorization consumer
+type: module
+description: Add users to roles as part of an Authorization workflow.
+core_version_requirement: ^9 || ^10 || ^11
+package: Authorization
+dependencies:
+  - authorization:authorization
+
+# Information added by Drupal.org packaging script on 2024-11-07
+version: '8.x-1.5'
+project: 'authorization'
+datestamp: 1731019648
