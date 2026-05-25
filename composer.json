@@ -24,11 +24,15 @@
         "drupal/core-recommended": "^11.3",
         "drupal/eca": "^3.1",
         "drupal/eca_ui": "^3.1",
+        "drupal/forum": "1.0.6",
+        "drupal/fullcalendar_view": "^5.2",
         "drupal/group": "^3.3",
         "drupal/ldap": "^4.12",
         "drupal/message": "^1.8",
         "drupal/message_notify": "^1.5",
+        "drupal/private_message": "^3.0",
         "drupal/smtp": "^1.4",
+        "drupal/tmgmt": "^1.18",
         "drush/drush": "^13.7"
     },
     "conflict": {

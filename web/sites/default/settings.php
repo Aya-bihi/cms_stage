@@ -872,3 +872,4 @@ $databases['default']['default'] = array (
   'autoload' => 'core/modules/mysql\\src\\Driver\\Database\\mysql\\',
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_otl1rL-93wwFRXK2bMpR29dFv9-3rbDpMl9hsWGMbkXVu23g7WVvr7aqXBgTSKoBolVLwShVNg/sync';
+$settings['rebuild_access'] = TRUE;
