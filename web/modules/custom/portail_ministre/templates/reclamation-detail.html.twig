@@ -1,0 +1,45 @@
+{{ attach_library('portail_ministre/reclamation') }}
+<div class="reclamation-detail">
+  {% if reclamation %}
+    <div class="reclamation-header">
+      <h2>Réclamation : {{ reclamation.numero_ticket }}</h2>
+      <span class="statut statut-{{ reclamation.statut|lower }}">{{ reclamation.statut }}</span>
+    </div>
+
+    <div class="reclamation-info">
+      <div class="info-row">
+        <strong>Objet :</strong> {{ reclamation.exige_demande }}
+      </div>
+      <div class="info-row">
+        <strong>Catégorie :</strong> {{ reclamation.categorie }}
+      </div>
+      <div class="info-row">
+        <strong>Statut :</strong> {{ reclamation.statut }}
+      </div>
+      <div class="info-row">
+        <strong>Date création :</strong> {{ reclamation.date_creation }}
+      </div>
+      {% if reclamation.nom_demandeur %}
+        <div class="info-row">
+          <strong>Demandeur :</strong> {{ reclamation.nom_demandeur }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="reclamation-description">
+      <h3>Description</h3>
+      <p>{{ reclamation.commentaire }}</p>
+    </div>
+
+    {% if reclamation.piece_jointe %}
+      <div class="reclamation-pj">
+        <strong>Pièce jointe :</strong>
+        <a href="{{ reclamation.piece_jointe }}">Télécharger</a>
+      </div>
+    {% endif %}
+
+    <div class="reclamation-actions">
+      <a href="/drupal/web/fr/portail/reclamations" class="button">Retour à la liste</a>
+    </div>
+  {% endif %}
+</div>

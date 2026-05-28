@@ -1,0 +1,140 @@
+portail_ministre.helpdesk:
+  path: '/portail/helpdesk'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\HelpDeskController::liste'
+    _title: 'Help Desk'
+  requirements:
+    _permission: 'soumettre ticket helpdesk'
+
+portail_ministre.helpdesk.nouveau:
+  path: '/portail/helpdesk/nouveau'
+  defaults:
+    _form: '\Drupal\portail_ministre\Form\HelpDeskForm'
+    _title: 'Nouveau ticket'
+  requirements:
+    _permission: 'soumettre ticket helpdesk'
+
+portail_ministre.helpdesk.detail:
+  path: '/portail/helpdesk/{id}'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\HelpDeskController::detail'
+    _title: 'Detail ticket'
+  requirements:
+    _permission: 'soumettre ticket helpdesk'
+    id: '\d+'
+
+portail_ministre.helpdesk.admin:
+  path: '/portail/helpdesk/admin'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\HelpDeskController::admin'
+    _title: 'Administration Help Desk'
+  requirements:
+    _permission: 'gerer tickets helpdesk'
+
+portail_ministre.helpdesk.changer_statut:
+  path: '/portail/helpdesk/{id}/statut/{statut}'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\HelpDeskController::changerStatut'
+    _title: 'Changer statut'
+  requirements:
+    _permission: 'gerer tickets helpdesk'
+    id: '\d+'
+
+portail_ministre.reclamation:
+  path: '/portail/reclamations'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ReclamationController::liste'
+    _title: 'Mes reclamations'
+  requirements:
+    _permission: 'soumettre reclamation'
+
+portail_ministre.reclamation.nouveau:
+  path: '/portail/reclamations/nouvelle'
+  defaults:
+    _form: '\Drupal\portail_ministre\Form\ReclamationForm'
+    _title: 'Nouvelle reclamation'
+  requirements:
+    _permission: 'soumettre reclamation'
+
+portail_ministre.reclamation.admin:
+  path: '/portail/reclamations/admin'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ReclamationController::admin'
+    _title: 'Gestion des reclamations'
+  requirements:
+    _permission: 'gerer reclamations'
+
+portail_ministre.courrier:
+  path: '/portail/courrier'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\CourrierController::liste'
+    _title: 'Gestion du Courrier'
+  requirements:
+    _permission: 'enregistrer courrier'
+
+portail_ministre.courrier.nouveau:
+  path: '/portail/courrier/nouveau'
+  defaults:
+    _form: '\Drupal\portail_ministre\Form\CourrierForm'
+    _title: 'Enregistrer un courrier'
+  requirements:
+    _permission: 'enregistrer courrier'
+
+portail_ministre.courrier.detail:
+  path: '/portail/courrier/{id}'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\CourrierController::detail'
+    _title: 'Detail courrier'
+  requirements:
+    _permission: 'enregistrer courrier'
+    id: '\d+'
+
+portail_ministre.elearning:
+  path: '/portail/elearning'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ElearningController::liste'
+    _title: 'Formations E-learning'
+  requirements:
+    _permission: 'acceder elearning'
+
+portail_ministre.elearning.detail:
+  path: '/portail/elearning/{id}'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ElearningController::detail'
+    _title: 'Detail formation'
+  requirements:
+    _permission: 'acceder elearning'
+    id: '\d+'
+
+portail_ministre.elearning.admin:
+  path: '/portail/elearning/admin'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ElearningController::admin'
+    _title: 'Gestion E-learning'
+  requirements:
+    _permission: 'gerer elearning'
+
+portail_ministre.forum:
+  path: '/portail/forum'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ForumController::listeSujets'
+    _title: 'Forum'
+  requirements:
+    _permission: 'acceder forum'
+
+portail_ministre.forum.detail:
+  path: '/portail/forum/{nid}'
+  defaults:
+    _controller: '\Drupal\portail_ministre\Controller\ForumController::detailSujet'
+    _title: 'Sujet du Forum'
+  requirements:
+    _permission: 'acceder forum'
+    nid: '\d+'
+
+portail_ministre.forum.nouveau:
+  path: '/portail/forum/nouveau'
+  defaults:
+    _form: '\Drupal\portail_ministre\Form\ForumSujetForm'
+    _title: 'Nouveau sujet'
+  requirements:
+    _permission: 'creer sujet forum'

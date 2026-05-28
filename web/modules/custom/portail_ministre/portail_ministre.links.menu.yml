@@ -1,0 +1,26 @@
+portail_ministre.helpdesk:
+  title: 'Help Desk'
+  route_name: portail_ministre.helpdesk
+  menu_name: main
+  weight: 10
+portail_ministre.reclamation:
+  title: 'Reclamations'
+  route_name: portail_ministre.reclamation
+  menu_name: main
+  weight: 11
+portail_ministre.courrier:
+  title: 'Courrier'
+  route_name: portail_ministre.courrier
+  menu_name: main
+  weight: 12
+portail_ministre.elearning:
+  title: 'E-learning'
+  route_name: portail_ministre.elearning
+  menu_name: main
+  weight: 13
+portail_ministre.forum:
+  title: 'Forum'
+  description: 'Espace de discussion et échange'
+  route_name: portail_ministre.forum
+  menu_name: main
+  weight: 40

@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function portail_ministre_theme($existing, $type, $theme, $path) {
+  return [
+    'helpdesk_liste' => [
+      'variables' => [
+        'tickets' => [],
+        'user_role' => 'agent',
+        'stats' => [],
+      ],
+    ],
+    'helpdesk_detail' => [
+      'variables' => [
+        'ticket' => NULL,
+      ],
+    ],
+    'reclamation_liste' => [
+      'variables' => [
+        'reclamations' => [],
+        'user_role' => 'agent',
+      ],
+    ],
+    'reclamation_detail' => [
+      'variables' => [
+        'reclamation' => NULL,
+      ],
+    ],
+    'courrier_liste' => [
+      'variables' => [
+        'courriers' => [],
+        'user_role' => 'agent',
+      ],
+    ],
+    'elearning_catalogue' => [
+      'variables' => [
+        'cours' => [],
+      ],
+    ],
+    'forum_list' => [
+      'variables' => [
+        'sujets' => [],
+        'user'   => NULL,
+      ],
+      'template' => 'forum/forum-list',
+    ],
+    'forum_detail' => [
+      'variables' => [
+        'sujet'    => NULL,
+        'reponses' => [],
+        'user'     => NULL,
+      ],
+      'template' => 'forum/forum-detail',
+    ],
+  ];
+}
+
+/**
+ * Génère un numéro de ticket Help Desk unique.
+ */
+function portail_ministre_generer_numero_ticket() {
+  $date   = date('Ymd');
+  $random = strtoupper(substr(uniqid(), -5));
+  return 'TKT-' . $date . '-' . $random;
+}
+
+/**
+ * Génère un numéro de réclamation unique.
+ */
+function portail_ministre_generer_numero_reclamation() {
+  $date   = date('Ymd');
+  $random = strtoupper(substr(uniqid(), -5));
+  return 'REC-' . $date . '-' . $random;
+}
+
+/**
+ * Génère un numéro de courrier unique.
+ */
+function portail_ministre_generer_numero_courrier($type = 'ARRIVEE') {
+  $date   = date('Ymd');
+  $random = strtoupper(substr(uniqid(), -5));
+  $prefix = ($type === 'DEPART') ? 'CRD' : 'CRA';
+  return $prefix . '-' . $date . '-' . $random;
+}
+
+/**
+ * Enregistre une entrée dans le journal d'audit.
+ */
+function portail_ministre_journal($action, $message, $id_entite = NULL) {
+  try {
+    $user = \Drupal::currentUser();
+    \Drupal\Core\Database\Database::getConnection()
+      ->insert('portail_ministre_journal')
+      ->fields([
+        'id_utilisateur' => $user->id(),
+        'action'         => $action,
+        'message'        => $message,
+        'id_entite'      => $id_entite,
+        'date_action'    => \Drupal::time()->getRequestTime(),
+        'ip_address'     => \Drupal::request()->getClientIp(),
+      ])
+      ->execute();
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('portail_ministre')->error('Journal error: @msg',
+      ['@msg' => $e->getMessage()]);
+  }
+}
+
+/**
+ * Envoie une notification interne à un utilisateur.
+ */
+function portail_ministre_notifier($id_utilisateur, $message, $lien = NULL, $type = 'info') {
+  try {
+    \Drupal\Core\Database\Database::getConnection()
+      ->insert('portail_ministre_notification')
+      ->fields([
+        'id_utilisateur' => $id_utilisateur,
+        'message'        => $message,
+        'lien'           => $lien,
+        'type'           => $type,
+        'lu'             => 0,
+        'date_creation'  => \Drupal::time()->getRequestTime(),
+      ])
+      ->execute();
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('portail_ministre')->error('Notification error: @msg',
+      ['@msg' => $e->getMessage()]);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for helpdesk_liste.
+ */
+function portail_ministre_preprocess_helpdesk_liste(&$variables) {
+  $variables['#attached']['library'][] = 'portail_ministre/portail_global';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for reclamation_liste.
+ */
+function portail_ministre_preprocess_reclamation_liste(&$variables) {
+  $variables['#attached']['library'][] = 'portail_ministre/portail_global';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for courrier_liste.
+ */
+function portail_ministre_preprocess_courrier_liste(&$variables) {
+  $variables['#attached']['library'][] = 'portail_ministre/portail_global';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for elearning_catalogue.
+ */
+function portail_ministre_preprocess_elearning_catalogue(&$variables) {
+  $variables['#attached']['library'][] = 'portail_ministre/portail_global';
+}
+/**
+ * Implements hook_form_alter() pour Forum Reponse.
+ */
+function portail_ministre_form_node_forum_reponse_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  
+  // Récupérer l'ID du sujet parent depuis l'URL
+  $nid = \Drupal::request()->query->get('field_sujet_parent');
+  
+  if (!empty($nid)) {
+    // Charger le nœud parent
+    $node = \Drupal\node\Entity\Node::load($nid);
+    
+    if ($node) {
+      // Remplir automatiquement le champ Sujet parent
+      $form['field_sujet_parent']['widget'][0]['target_id']['#default_value'] = $node;
+    }
+  }
+}

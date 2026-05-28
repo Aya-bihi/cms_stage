@@ -230,10 +230,15 @@ class PermissionHandler implements PermissionHandlerInterface {
    * @return string[]
    *   Returns the human readable names of all modules keyed by machine name.
    */
-  protected function getModuleNames() {
+ protected function getModuleNames() {
     $modules = [];
     foreach (array_keys($this->moduleHandler->getModuleList()) as $module) {
-      $modules[$module] = $this->moduleExtensionList->getName($module);
+      try {
+        $modules[$module] = $this->moduleExtensionList->getName($module);
+      }
+      catch (\Exception $e) {
+        $modules[$module] = $module;
+      }
     }
     asort($modules);
     return $modules;

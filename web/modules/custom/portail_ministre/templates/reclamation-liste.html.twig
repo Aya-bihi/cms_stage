@@ -1,0 +1,35 @@
+{{ attach_library('portail_ministre/reclamation') }}
+<div class="reclamation-liste">
+  <a href="/drupal/web/fr/portail/reclamations/nouvelle" class="button">Nouvelle réclamation</a>
+
+  {% if reclamations %}
+    <table class="reclamation-table">
+      <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Objet</th>
+          <th>Catégorie</th>
+          <th>Statut</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reclamation in reclamations %}
+          <tr>
+            <td>{{ reclamation.numero_ticket }}</td>
+            <td>{{ reclamation.exige_demande }}</td>
+            <td>{{ reclamation.categorie }}</td>
+            <td>{{ reclamation.statut }}</td>
+            <td>{{ reclamation.date_creation }}</td>
+            <td>
+              <a href="/drupal/web/fr/portail/reclamations/{{ reclamation.id }}">Détail</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucune réclamation trouvée.</p>
+  {% endif %}
+</div>

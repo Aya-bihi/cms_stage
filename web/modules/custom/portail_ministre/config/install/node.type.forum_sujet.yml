@@ -1,0 +1,10 @@
+langcode: fr
+status: true
+dependencies: {  }
+name: 'Forum Sujet'
+type: forum_sujet
+description: 'Sujet de discussion du forum interne'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

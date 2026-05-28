@@ -873,3 +873,8 @@ $databases['default']['default'] = array (
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_otl1rL-93wwFRXK2bMpR29dFv9-3rbDpMl9hsWGMbkXVu23g7WVvr7aqXBgTSKoBolVLwShVNg/sync';
 $settings['rebuild_access'] = TRUE;
+$config['system.logging']['error_level'] = 'verbose';
+ini_set('display_errors', TRUE);
+error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+$settings['install_profile'] = 'standard';

@@ -1,0 +1,43 @@
+{{ attach_library('portail_ministre/helpdesk') }}
+<div class="helpdesk-liste">
+  {% if user_role == 'admin' and stats %}
+    <div class="helpdesk-stats">
+      <div class="stat">Total : {{ stats.total }}</div>
+      <div class="stat">Nouveau : {{ stats.nouveau }}</div>
+      <div class="stat">En cours : {{ stats.en_cours }}</div>
+      <div class="stat">Résolu : {{ stats.resolu }}</div>
+      <div class="stat">Urgents : {{ stats.urgents }}</div>
+    </div>
+  {% endif %}
+
+  <a href="/drupal/web/fr/portail/helpdesk/nouveau" class="button">Nouveau ticket</a>
+
+  {% if tickets %}
+    <table class="helpdesk-table">
+      <thead>
+        <tr>
+          <th>Ticket</th>
+          <th>Catégorie</th>
+          <th>Priorité</th>
+          <th>Statut</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ticket in tickets %}
+          <tr>
+            <td>{{ ticket.numero_ticket }}</td>
+            <td>{{ ticket.categorie }}</td>
+            <td>{{ ticket.priorite }}</td>
+            <td>{{ ticket.statut }}</td>
+            <td>{{ ticket.date_creation }}</td>
+            <td><a href="/drupal/web/fr/portail/helpdesk/{{ ticket.id }}">Détail</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucun ticket trouvé.</p>
+  {% endif %}
+</div>

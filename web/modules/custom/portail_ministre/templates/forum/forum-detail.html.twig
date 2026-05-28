@@ -1,0 +1,37 @@
+<div class="portail-forum-wrapper">
+  <nav class="fil-ariane">
+    <a href="{{ path('portail_ministre.forum') }}">Forum</a> &rsaquo;
+    <span>{{ sujet.label }}</span>
+  </nav>
+
+  <article class="forum-sujet-detail">
+    <h1>{{ sujet.label }}</h1>
+    <div class="sujet-meta">
+      <span>{{ sujet.uid.entity.displayname }}</span>
+      <span>{{ sujet.created.value|date('d/m/Y à H:i') }}</span>
+    </div>
+    <div class="sujet-corps">
+      {{ sujet.body.processed }}
+    </div>
+  </article>
+
+  <section class="forum-reponses">
+    <h2>{{ reponses|length }} réponse(s)</h2>
+    {% for reponse in reponses %}
+      <div class="reponse-card">
+        <div class="reponse-avatar">{{ reponse.uid.entity.displayname|first|upper }}</div>
+        <div class="reponse-contenu">
+          <strong>{{ reponse.uid.entity.displayname }}</strong>
+          <span>{{ reponse.created.value|date('d/m/Y à H:i') }}</span>
+          <div>{{ reponse.body.processed }}</div>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if user and user.hasPermission('create forum_reponse content') %}
+      <a href="{{ path('node.add', {node_type: 'forum_reponse', field_sujet_parent: sujet.id}) }}" class="btn btn-secondary">
+        Répondre
+      </a>
+    {% endif %}
+  </section>
+</div>

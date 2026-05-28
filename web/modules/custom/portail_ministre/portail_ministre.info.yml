@@ -1,5 +1,13 @@
-name: 'Portail Interne du Ministère'
+name: 'Portail Interne du Ministere'
 type: module
-description: 'Portail interne de gestion documentaire et collaborative du Ministère'
+description: 'Portail interne de gestion documentaire et collaborative du Ministere'
 core_version_requirement: ^10 || ^11
 package: Custom
+dependencies:
+  - drupal:node
+  - drupal:views
+  - drupal:content_moderation
+  - drupal:workflows
+  - drupal:field
+  - drupal:file
+  - drupal:user

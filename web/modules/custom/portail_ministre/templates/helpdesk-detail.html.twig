@@ -1,0 +1,48 @@
+{{ attach_library('portail_ministre/helpdesk') }}
+<div class="helpdesk-detail">
+  {% if ticket %}
+    <div class="ticket-header">
+      <h2>Ticket : {{ ticket.numero_ticket }}</h2>
+      <span class="statut statut-{{ ticket.statut|lower }}">{{ ticket.statut }}</span>
+    </div>
+
+    <div class="ticket-info">
+      <div class="info-row">
+        <strong>Catégorie :</strong> {{ ticket.categorie }}
+      </div>
+      <div class="info-row">
+        <strong>Priorité :</strong> {{ ticket.priorite }}
+      </div>
+      <div class="info-row">
+        <strong>Demandeur :</strong> {{ ticket.nom_demandeur }}
+      </div>
+      <div class="info-row">
+        <strong>Technicien assigné :</strong> {{ ticket.nom_technicien }}
+      </div>
+      <div class="info-row">
+        <strong>Date création :</strong> {{ ticket.date_creation }}
+      </div>
+      {% if ticket.date_resolution %}
+        <div class="info-row">
+          <strong>Date résolution :</strong> {{ ticket.date_resolution }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ticket-description">
+      <h3>Description</h3>
+      <p>{{ ticket.exige_demande }}</p>
+    </div>
+
+    {% if ticket.commentaire %}
+      <div class="ticket-commentaire">
+        <h3>Commentaire</h3>
+        <p>{{ ticket.commentaire }}</p>
+      </div>
+    {% endif %}
+
+    <div class="ticket-actions">
+      <a href="/drupal/web/fr/portail/helpdesk" class="button">Retour à la liste</a>
+    </div>
+  {% endif %}
+</div>

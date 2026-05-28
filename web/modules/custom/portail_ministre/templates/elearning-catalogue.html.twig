@@ -1,0 +1,24 @@
+{{ attach_library('portail_ministre/elearning') }}
+<div class="elearning-catalogue">
+  {% if cours %}
+    <div class="cours-grid">
+      {% for c in cours %}
+        <div class="cours-card">
+          <h3>{{ c.titre }}</h3>
+          {% if c.categorie %}
+            <span class="cours-categorie">{{ c.categorie }}</span>
+          {% endif %}
+          {% if c.duree %}
+            <span class="cours-duree">Durée : {{ c.duree }} min</span>
+          {% endif %}
+          {% if c.description %}
+            <p>{{ c.description|slice(0, 150) }}...</p>
+          {% endif %}
+          <a href="/drupal/web/fr/portail/elearning/{{ c.id }}" class="button">Voir la formation</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Aucune formation disponible pour le moment.</p>
+  {% endif %}
+</div>

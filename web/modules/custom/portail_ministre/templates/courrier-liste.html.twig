@@ -1,0 +1,39 @@
+{{ attach_library('portail_ministre/courrier') }}
+<div class="courrier-liste">
+  <a href="/drupal/web/fr/portail/courrier/nouveau" class="button">Enregistrer un courrier</a>
+
+  {% if courriers %}
+    <table class="courrier-table">
+      <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Titre</th>
+          <th>Type</th>
+          <th>Direction source</th>
+          <th>Direction destination</th>
+          <th>Statut</th>
+          <th>Date réception</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for courrier in courriers %}
+          <tr>
+            <td>{{ courrier.numero_courrier }}</td>
+            <td>{{ courrier.titre }}</td>
+            <td>{{ courrier.type }}</td>
+            <td>{{ courrier.direction_source }}</td>
+            <td>{{ courrier.direction_destination }}</td>
+            <td>{{ courrier.statut }}</td>
+            <td>{{ courrier.date_reception }}</td>
+            <td>
+              <a href="/drupal/web/fr/portail/courrier/{{ courrier.id }}">Détail</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucun courrier trouvé.</p>
+  {% endif %}
+</div>

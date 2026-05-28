@@ -1,0 +1,24 @@
+soumettre ticket helpdesk:
+  title: 'Help Desk'
+gerer tickets helpdesk:
+  title: 'Gerer Help Desk'
+soumettre reclamation:
+  title: 'Reclamation'
+gerer reclamations:
+  title: 'Gerer Reclamations'
+enregistrer courrier:
+  title: 'Courrier'
+gerer courrier:
+  title: 'Gerer Courrier'
+acceder elearning:
+  title: 'E-learning'
+gerer elearning:
+  title: 'Gerer E-learning'
+acceder forum:
+  title: 'Acceder au Forum'
+creer sujet forum:
+  title: 'Creer un sujet Forum'
+gerer forum:
+  title: 'Gerer le Forum'
+moderer forum:
+  title: 'Moderer le Forum'

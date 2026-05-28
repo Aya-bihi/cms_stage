@@ -1,0 +1,32 @@
+helpdesk:
+  version: 1.0
+  css:
+    theme:
+      css/helpdesk.css:
+        weight: 100
+  js:
+    js/helpdesk.js: {}
+
+reclamation:
+  version: 1.0
+  css:
+    theme:
+      css/reclamation.css: {}
+
+courrier:
+  version: 1.0
+  css:
+    theme:
+      css/courrier.css: {}
+
+elearning:
+  version: 1.0
+  css:
+    theme:
+      css/elearning.css: {}
+
+portail_global:
+  version: 1.0
+  css:
+    theme:
+      css/portail_global.css: {}

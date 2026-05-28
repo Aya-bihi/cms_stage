@@ -1,0 +1,129 @@
+/* Portail Ministre - Global CSS */
+
+/* Boutons */
+a.button,
+.button {
+  display: inline-block !important;
+  padding: 8px 16px !important;
+  background-color: #0077b6 !important;
+  color: white !important;
+  border-radius: 4px !important;
+  text-decoration: none !important;
+  margin-bottom: 15px !important;
+}
+
+a.button:hover,
+.button:hover {
+  background-color: #005f8e !important;
+  color: white !important;
+}
+
+/* Tables */
+.helpdesk-table,
+.reclamation-table,
+.courrier-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-top: 20px !important;
+}
+
+.helpdesk-table th,
+.reclamation-table th,
+.courrier-table th {
+  background-color: #0077b6 !important;
+  color: white !important;
+  padding: 10px 15px !important;
+  text-align: left !important;
+}
+
+.helpdesk-table td,
+.reclamation-table td,
+.courrier-table td {
+  padding: 10px 15px !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.helpdesk-table tr:hover,
+.reclamation-table tr:hover,
+.courrier-table tr:hover {
+  background-color: #f0f8ff !important;
+}
+
+/* Statuts */
+.statut {
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  font-size: 0.85em !important;
+  font-weight: bold !important;
+}
+
+.statut-en_attente { background-color: #ffd166 !important; color: #333 !important; }
+.statut-validation { background-color: #06d6a0 !important; color: white !important; }
+.statut-refus { background-color: #ef476f !important; color: white !important; }
+
+/* Stats */
+.helpdesk-stats {
+  display: flex !important;
+  gap: 15px !important;
+  margin-bottom: 20px !important;
+  flex-wrap: wrap !important;
+}
+
+.stat {
+  background-color: #0077b6 !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+}
+
+/* E-learning */
+.cours-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 20px !important;
+  margin-top: 20px !important;
+}
+
+.cours-card {
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.cours-card h3 {
+  color: #0077b6 !important;
+  margin-top: 0 !important;
+}
+
+.cours-categorie {
+  background-color: #e0f0ff !important;
+  color: #0077b6 !important;
+  padding: 3px 8px !important;
+  border-radius: 10px !important;
+  font-size: 0.8em !important;
+}
+
+/* Detail pages */
+.ticket-header,
+.reclamation-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+  margin-bottom: 20px !important;
+}
+
+.info-row {
+  padding: 8px 0 !important;
+  border-bottom: 1px solid #eee !important;
+}
+
+.ticket-description,
+.reclamation-description {
+  margin-top: 20px !important;
+  padding: 15px !important;
+  background-color: #f8f9fa !important;
+  border-radius: 8px !important;
+}

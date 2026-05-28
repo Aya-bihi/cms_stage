@@ -1,0 +1,10 @@
+langcode: fr
+status: true
+dependencies: {  }
+name: 'Forum Reponse'
+type: forum_reponse
+description: 'Reponse a un sujet du forum'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

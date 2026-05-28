@@ -1,0 +1,9 @@
+<?php
+define('DRUPAL_ROOT', __DIR__);
+require_once DRUPAL_ROOT . '/../vendor/autoload.php';
+
+$db = \Drupal\Core\Database\Database::getConnectionInfo();
+print_r($db);
+
+$result = db_query("SELECT name, status FROM system WHERE type = 'module' AND name = 'user'")->fetchAll();
+print_r($result);

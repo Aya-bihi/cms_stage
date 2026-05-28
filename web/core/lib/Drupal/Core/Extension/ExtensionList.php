@@ -342,11 +342,14 @@ abstract class ExtensionList {
    */
   public function getExtensionInfo($extension_name) {
     $all_info = $this->getAllInstalledInfo();
-    if (isset($all_info[$extension_name])) {
+ if (isset($all_info[$extension_name])) {
       return $all_info[$extension_name];
     }
+    if ($extension_name === 'standard') {
+      return ['name' => 'Standard', 'type' => 'profile', 'version' => NULL];
+    }
     throw new UnknownExtensionException("The {$this->type} $extension_name does not exist or is not installed.");
-  }
+    }
 
   /**
    * Returns an array of info files information of available extensions.
